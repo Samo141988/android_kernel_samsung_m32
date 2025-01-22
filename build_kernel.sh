@@ -12,7 +12,7 @@ BWhite='\033[1;37m'       # White
 On_Blue='\033[44m'        # Blue
 Color_Off='\033[0m'       # Text Reset
 
-KERNELSU_REPO="https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh"
+KERNELSU_REPO="https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh"
 
 pr_info() {
 	echo -e "${On_Blue}${BWhite}[  INFO  ]${Color_Off} $@"
