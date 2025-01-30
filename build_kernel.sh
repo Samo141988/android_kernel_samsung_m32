@@ -33,7 +33,7 @@ elif [ -z $DEFCONFIG ]; then
 fi
 
 if [[ "$KERNELSU" = "true" ]]; then
-	curl -LSs $KERNELSU_REPO | bash -s next
+	curl -LSs $KERNELSU_REPO | bash -s next-susfs
 else
 	pr_info "KernelSU is disabled, export KERNELSU=true to enable it"
 fi
