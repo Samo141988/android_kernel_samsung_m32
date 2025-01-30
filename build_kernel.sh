@@ -12,7 +12,7 @@ BWhite='\033[1;37m'       # White
 On_Blue='\033[44m'        # Blue
 Color_Off='\033[0m'       # Text Reset
 
-KERNELSU_REPO="https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh"
+KERNELSU_REPO="https://raw.githubusercontent.com/Samo141988/KernelSU-Next/susfs/kernel/setup.sh"
 
 pr_info() {
 	echo -e "${On_Blue}${BWhite}[  INFO  ]${Color_Off} $@"
@@ -33,7 +33,7 @@ elif [ -z $DEFCONFIG ]; then
 fi
 
 if [[ "$KERNELSU" = "true" ]]; then
-	curl -LSs $KERNELSU_REPO | bash -s next-susfs
+	curl -LSs $KERNELSU_REPO | bash -s susfs
 else
 	pr_info "KernelSU is disabled, export KERNELSU=true to enable it"
 fi
