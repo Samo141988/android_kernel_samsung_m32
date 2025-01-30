@@ -51,9 +51,9 @@ export CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 
 DATE=$(date +'%Y%m%d%H%M%S')
 IMAGE="$KERNEL_OUT/arch/$ARCH/boot/Image.gz"
-cd $KERNEL_OUT/KernelSU
+cd KernelSU
 patch -p1 < 10_enable_susfs_for_ksu.patch
-cd $KERNEL_OUT
+cd ..
 patch -p1 < 50_add_susfs_in_kernel-4.14.patch
 if [ -z $JOBS ]; then
 	JOBS=$(nproc --all)
