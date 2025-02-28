@@ -12,7 +12,7 @@ BWhite='\033[1;37m'       # White
 On_Blue='\033[44m'        # Blue
 Color_Off='\033[0m'       # Text Reset
 
-KERNELSU_REPO="https://raw.githubusercontent.com/Samo141988/KernelSU-Next/susfs/kernel/setup.sh"
+KERNELSU_REPO="https://raw.githubusercontent.com/Samo141988/KernelSU/next-susfs-5.4/kernel/setup.sh"
 
 pr_info() {
 	echo -e "${On_Blue}${BWhite}[  INFO  ]${Color_Off} $@"
@@ -52,9 +52,9 @@ export CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 DATE=$(date +'%Y%m%d%H%M%S')
 IMAGE="$KERNEL_OUT/arch/$ARCH/boot/Image.gz"
 #cd KernelSU
-#patch -p1 < 10_enable_susfs_for_ksu.patch
+patch -p1 < 10_enable_susfs_for_ksu.patch
 #cd ..
-#patch -p1 < 50_add_susfs_in_kernel-4.14.patch
+patch -p1 < 50_add_susfs_in_kernel-4.14.patch
 if [ -z $JOBS ]; then
 	JOBS=$(nproc --all)
 fi
