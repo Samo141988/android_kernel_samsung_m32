@@ -311,7 +311,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
 # Default value for CROSS_COMPILE is not to prefix executables
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 ARCH            ?= arm64
-CROSS_COMPILE   ?= $(srctree)/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
+CROSS_COMPILE   ?=
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -363,17 +363,16 @@ HOST_LFS_LIBS := $(shell getconf LFS_LIBS 2>/dev/null)
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 \
-		-fomit-frame-pointer -std=gnu89 $(HOST_LFS_CFLAGS)
+HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 \
+		-Wno-deprecated-declarations -fomit-frame-pointer -std=gnu89 $(HOST_LFS_CFLAGS)
 HOSTCXXFLAGS := -O2 $(HOST_LFS_CFLAGS)
 HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS)
 HOST_LOADLIBES := $(HOST_LFS_LIBS)
 
 # Make variables (CC, etc...)
 AS		= $(CROSS_COMPILE)as
-LD		= $(CROSS_COMPILE)ld
-LDGOLD		= $(CROSS_COMPILE)ld.gold
-CC		= $(srctree)/toolchain/clang/host/linux-x86/clang-r383902/bin/clang
+LD		= ld.lld
+CC		= clang
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -383,7 +382,7 @@ OBJDUMP		= $(CROSS_COMPILE)objdump
 AWK		= awk
 GENKSYMS	= scripts/genksyms/genksyms
 INSTALLKERNEL  := installkernel
-DEPMOD		= /sbin/depmod
+DEPMOD		= depmod
 PERL		= perl
 PYTHON		= python
 CHECK		= sparse
@@ -652,13 +651,7 @@ export CFLAGS_GCOV
 # Make toolchain changes before including arch/$(SRCARCH)/Makefile to ensure
 # ar/cc/ld-* macros return correct values.
 ifdef CONFIG_LTO_CLANG
-ifneq ($(ld-name),lld)
-# use GNU gold with LLVMgold for LTO linking, and LD for vmlinux_link
-LDFINAL_vmlinux := $(LD)
-LD		:= $(LDGOLD)
-LDFLAGS		+= -plugin LLVMgold.so
-endif
-# use llvm-ar for building symbol tables from IR files, and llvm-dis instead
+# use llvm-ar for building symbol tables from IR files, and llvm-nm instead
 # of objdump for processing symbol versions and exports
 LLVM_AR		:= llvm-ar
 LLVM_NM		:= llvm-nm
