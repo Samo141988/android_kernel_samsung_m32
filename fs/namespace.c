@@ -23,15 +23,16 @@
 #include <linux/uaccess.h>
 #include <linux/proc_ns.h>
 #include <linux/magic.h>
-#include <linux/bootmem.h>
-#include <linux/task_work.h>
-#include <linux/sched/task.h>
+ #include <linux/bootmem.h>
+ #include <linux/task_work.h>
+ #include <linux/sched/task.h>
 #if defined(CONFIG_KSU_SUSFS_SUS_MOUNT) || defined(CONFIG_KSU_SUSFS_TRY_UMOUNT)
 #include <linux/susfs_def.h>
 #endif
-#include "pnode.h"
+ 
+ #include "pnode.h"
 #include "internal.h"
-
+ 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
 extern bool susfs_is_current_ksu_domain(void);
 extern bool susfs_is_current_zygote_domain(void);
@@ -58,10 +59,9 @@ extern void susfs_auto_add_try_umount_for_bind_mount(struct path *path);
 bool susfs_is_auto_add_try_umount_for_bind_mount_enabled = true;
 #endif
 
-
-/* Maximum number of mounts in a mount namespace */
-unsigned int sysctl_mount_max __read_mostly = 100000;
-
+ /* Maximum number of mounts in a mount namespace */
+ unsigned int sysctl_mount_max __read_mostly = 100000;
+ 
 /* @fs.sec -- c4d165e8cb5ea1cc14cdedb9eab23efd642d4d5f -- */
 static unsigned int sys_umount_trace_status;
 
@@ -466,7 +466,7 @@ static void drop_mountpoint(struct fs_pin *p)
 	mntput(m->mnt);
 #else
 	mntput(&m->mnt);
-#endif
+
 }
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
@@ -1480,7 +1480,6 @@ bypass_orig_flow:
 	mnt->mnt.mnt_root = root;
 	mnt->mnt.mnt_sb = root->d_sb;
 	mnt->mnt_mountpoint = mnt->mnt.mnt_root;
-#endif
 	mnt->mnt_parent = mnt;
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
@@ -1664,7 +1663,6 @@ static struct mount *clone_mnt(struct mount *old, struct dentry *root,
 	mnt->mnt.mnt_sb = sb;
 	mnt->mnt.mnt_root = dget(root);
 	mnt->mnt_mountpoint = mnt->mnt.mnt_root;
-#endif
 	mnt->mnt_parent = mnt;
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
