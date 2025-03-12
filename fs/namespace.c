@@ -3920,12 +3920,9 @@ struct mnt_namespace *copy_mnt_ns(unsigned long flags, struct mnt_namespace *ns,
 		if (!q)
 			break;
 #if defined(CONFIG_KDP_NS) || defined(CONFIG_RUSTUH_KDP_NS)
-		while (p->mnt->mnt_root != q->mnt->mnt_root)
-#else
 		while (p->mnt.mnt_root != q->mnt.mnt_root)
-#endif
-			p = next_mnt(p, old);
-	}
+ 			p = next_mnt(p, old);
+ 	}
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
 	// current->susfs_last_fake_mnt_id -> to record last valid fake mnt_id to zygote pid
 	// q->mnt.susfs_mnt_id_backup -> original mnt_id
@@ -3949,9 +3946,10 @@ struct mnt_namespace *copy_mnt_ns(unsigned long flags, struct mnt_namespace *ns,
 	current->susfs_last_fake_mnt_id = last_entry_mnt_id;
 #endif
 
-	namespace_unlock();
+ 	namespace_unlock();
+ 
+ 	if (rootmnt)
 
-	if (rootmnt)
 		mntput(rootmnt);
 	if (pwdmnt)
 		mntput(pwdmnt);
